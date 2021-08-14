@@ -85,7 +85,7 @@
             v-model="selectst"
             :items="itemstst"
             item-text="nombre_status"
-            item-value="status_id"
+            item-value="id"
             label="Estatus"
             required
           ></v-select>
@@ -197,7 +197,7 @@
 
           status.forEach((element) => {
             let datos = {
-              status_id: element.id,
+              id: element.id,
               nombre_status: element.nombre_status,
             };
 
