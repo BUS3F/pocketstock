@@ -42,7 +42,7 @@
 <script>
   import store from "@/store";
   import { postCategorias } from "@/api/categorias.js";
-
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     name: "crearcategoria",
     props: {
@@ -65,6 +65,7 @@
           nombre_categoria: this.name,
           descripcion_categoria: this.descripcion,
         };
+        enviar.nombre_categoria = upperConverter(enviar.nombre_categoria);
         postCategorias(enviar);
         this.clear();
       },

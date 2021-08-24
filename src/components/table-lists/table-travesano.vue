@@ -100,7 +100,7 @@
     deleteTravesano,
     editTravesano,
   } from "@/api/travesanos.js";
-
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     nombre: "tabla-travesano",
     data: () => ({
@@ -225,6 +225,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.travesanoArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.nombre_travesano = upperConverter(send.nombre_travesano);
           let url = "api/travesano/";
           url = url + send.id;
           url = `${url}?${"nombre_travesano=" + send.nombre_travesano}`;

@@ -96,6 +96,7 @@
 
 <script>
   import { getTipos, deleteTipos, editTipos } from "@/api/tipos.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     name_tipo: "tabla-tipo",
     data: () => ({
@@ -221,6 +222,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.tipoArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.name_tipo = upperConverter(send.name_tipo);
           let url = "api/tipo/";
           url = url + send.id;
           url = `${url}?${"name_tipo=" + send.name_tipo}`;

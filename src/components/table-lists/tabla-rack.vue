@@ -96,6 +96,7 @@
 
 <script>
   import { getRack, deleteRack, editRack } from "@/api/racks.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     nombre_rack: "tabla-rack",
     data: () => ({
@@ -216,6 +217,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.rackArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.nombre_rack = upperConverter(send.nombre_rack);
           let url = "api/rack/";
           url = url + send.id;
           url = `${url}?${"nombre_rack=" + send.nombre_rack}`;

@@ -100,6 +100,7 @@
     deleteProveedores,
     editProveedores,
   } from "@/api/proveedores.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     nombre_proveedor: "tabla-proveedor",
     data: () => ({
@@ -230,8 +231,9 @@
         if (this.editedIndex > -1) {
           Object.assign(this.proveedorArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.nombre_proveedor = upperConverter(send.nombre_proveedor);
           let url = "api/proveedor/";
-          console.log("edit method:", url + send.id);
+
           url = url + send.id;
           url = `${url}?${"nombre_proveedor=" + send.nombre_proveedor}`;
           editProveedores(url);

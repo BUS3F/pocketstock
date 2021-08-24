@@ -33,7 +33,7 @@
 <script>
   import { postMarcas } from "@/api/marcas.js";
   import store from "@/store";
-
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     name: "crearmarca",
     props: {
@@ -55,6 +55,7 @@
         let enviar = {
           nombre_marca: this.name,
         };
+        enviar.nombre_marca = upperConverter(enviar.nombre_marca);
         postMarcas(enviar);
         this.clear();
       },

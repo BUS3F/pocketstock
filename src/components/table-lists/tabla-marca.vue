@@ -96,6 +96,7 @@
 
 <script>
   import { getMarcas, editMarcas, deleteMarcas } from "@/api/marcas.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     nombre_marca: "tabla-marca",
     data: () => ({
@@ -219,6 +220,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.marcaArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.nombre_marca = upperConverter(send.nombre_marca);
           let url = "api/marca/";
 
           url = url + send.id;

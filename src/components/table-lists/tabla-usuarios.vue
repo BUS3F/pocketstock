@@ -135,6 +135,7 @@
 <script>
   import axios from "axios";
   import store from "@/store";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   //axios.defaults.withCredentials = true;
   axios.defaults.baseURL = "http://127.0.0.1:8000/";
   export default {
@@ -348,6 +349,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.usersArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.name = upperConverter(send.name);
           let url = "api/user/";
 
           url = url + send.id;

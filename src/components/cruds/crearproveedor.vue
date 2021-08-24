@@ -33,6 +33,7 @@
 <script>
   import store from "@/store";
   import { postProveedores } from "@/api/proveedores.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     name: "crearproveedor",
     props: {
@@ -54,6 +55,7 @@
         let enviar = {
           nombre_proveedor: this.name,
         };
+        enviar.nombre_proveedor = upperConverter(enviar.nombre_proveedor);
         postProveedores(enviar);
         this.clear();
       },

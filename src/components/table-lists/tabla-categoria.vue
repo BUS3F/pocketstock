@@ -105,7 +105,7 @@
     deleteCategoria,
     editCategoria,
   } from "@/api/categorias.js";
-
+  import { upperConverter } from "@/special/uppercases-converter.js";
   export default {
     nombre_categoria: "tabla-categoria",
     data: () => ({
@@ -235,6 +235,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.categoriaArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
+          send.nombre_categoria = upperConverter(send.nombre_categoria);
           let url = "api/categoria/";
           url = url + send.id;
           url = `${url}?${"nombre_categoria=" + send.nombre_categoria}`;

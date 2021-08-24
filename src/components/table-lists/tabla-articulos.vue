@@ -189,6 +189,7 @@
   import { getTipos } from "@/api/tipos.js";
   import { getRack } from "@/api/racks.js";
   import { getTravesano } from "@/api/travesanos.js";
+  import { upperConverter } from "@/special/uppercases-converter.js";
   axios.defaults.baseURL = "http://127.0.0.1:8000/";
   export default {
     name: "tabla-articulos",
@@ -596,7 +597,7 @@
         if (this.editedIndex > -1) {
           Object.assign(this.articulosArray[this.editedIndex], this.editedItem);
           let send = this.editedItem;
-
+          send.nombre_articulo = upperConverter(send.nombre_articulo);
           let url = "api/articulo/";
           url = url + send.id;
           url = `${url}?${"nombre_articulo=" + send.nombre_articulo}&${
