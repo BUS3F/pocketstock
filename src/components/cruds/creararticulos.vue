@@ -39,7 +39,7 @@
             v-model="selectc"
             :items="itemsc"
             item-text="nombre_categoria"
-            item-value="categoria_id"
+            item-value="id"
             label="Categoría"
           >
           </v-select>
@@ -51,7 +51,7 @@
             v-model="selectt"
             :items="itemstt"
             item-text="name_tipo"
-            item-value="tipo_id"
+            item-value="id"
             label="Tipo"
           >
           </v-select>
@@ -62,7 +62,7 @@
             v-model="selectp"
             :items="itemsp"
             item-text="nombre_proveedor"
-            item-value="proveedor_id"
+            item-value="id"
             label="Proveedor"
             required
           ></v-select>
@@ -74,7 +74,7 @@
             v-model="selectm"
             :items="itemstm"
             item-text="nombre_marca"
-            item-value="marca_id"
+            item-value="id"
             label="Marca"
             required
           ></v-select>
@@ -85,7 +85,7 @@
             v-model="selectst"
             :items="itemstst"
             item-text="nombre_status"
-            item-value="status_id"
+            item-value="id"
             label="Estatus"
             required
           ></v-select>
@@ -97,7 +97,7 @@
             v-model="selectr"
             :items="itemsr"
             item-text="nombre_rack"
-            item-value="rack_id"
+            item-value="id"
             label="Ubicación rack"
             required
           ></v-select>
@@ -107,7 +107,7 @@
             v-model="selectT"
             :items="itemsT"
             item-text="nombre_travesano"
-            item-value="travesano_id"
+            item-value="id"
             label="Ubicación travesaño"
             required
           ></v-select>
@@ -197,7 +197,7 @@
 
           status.forEach((element) => {
             let datos = {
-              status_id: element.id,
+              id: element.id,
               nombre_status: element.nombre_status,
             };
 
