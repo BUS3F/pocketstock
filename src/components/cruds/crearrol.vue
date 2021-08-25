@@ -22,8 +22,9 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn class="mr-4" v-on:click="submit" text> Guardar </v-btn>
-      <v-btn @click="clear" text> Limpiar </v-btn>
+      <v-sapacer></v-sapacer>
+      <v-btn @click="clear" outlined> Limpiar </v-btn>
+      <v-btn class="mr-4" v-on:click="submit" outlined> Guardar </v-btn>
     </v-card>
   </v-dialog>
 </template>

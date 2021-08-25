@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     content-class="elevation-0"
-    v-model="parentdialog"
+    v-model="dialogmarca"
     max-width="20rem"
     persistent
   >
@@ -23,8 +23,11 @@
         </v-col>
       </v-row>
       <v-card-actions>
-        <v-btn class="mr-4" @click="submit()" text> Guardar </v-btn>
-        <v-btn @click="clear" text> Limpiar </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="grey darken-2" @click="clear" outlined> Limpiar </v-btn>
+        <v-btn color="yellow darken-2" class="mr-4" @click="submit()" outlined>
+          Guardar marca
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -37,7 +40,7 @@
   export default {
     name: "crearmarca",
     props: {
-      parentdialog: { type: Boolean },
+      dialogmarca: { default: false },
     } /*data de llegado de componente padre creacion*/,
     data: () => ({
       name: "",
@@ -46,7 +49,7 @@
     methods: {
       onClose() {
         /*Envia parametro de cierre a componente creación*/
-        this.$emit("dialogFromChild", false);
+        this.$emit("update:dialogmarca", false);
       },
       submit() {
         //this.$emit("dialogFromChild", false);

@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     content-class="elevation-0"
-    v-model="parentdialog"
+    v-model="dialograck"
     max-width="20rem"
     persistent
   >
@@ -22,8 +22,14 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn color="green" class="mr-4" @click="submit" text> Guardar </v-btn>
-      <v-btn @click="clear" text> Limpiar </v-btn>
+      <v-spacer></v-spacer>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey darken-2" @click="clear" outlined> Limpiar </v-btn>
+        <v-btn color="yellow darken-2" class="mr-4" @click="submit" outlined>
+          Guardar rack
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -35,7 +41,7 @@
   export default {
     name: "crearrack",
     props: {
-      parentdialog: { type: Boolean },
+      dialograck: { dafault: false },
     } /*data de llegado de componente padre creacion*/,
     data: () => ({
       rack: "",
@@ -44,9 +50,7 @@
     methods: {
       onClose() {
         /*Envia parametro de cierre a componente creación*/
-        store.commit("increment", 1);
-        store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada
-        store.commit("setdanger", false);
+        this.$emit("update:dialograck", false);
       },
       submit() {
         store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada

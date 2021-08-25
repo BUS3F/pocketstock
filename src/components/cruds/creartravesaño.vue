@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     content-class="elevation-0"
-    v-model="parentdialog"
+    v-model="dialogtravesaño"
     max-width="28rem"
     persistent
   >
@@ -22,8 +22,13 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn color="green" class="mr-4" @click="submit" text> Guardar </v-btn>
-      <v-btn @click="clear" text> Limpiar </v-btn>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey darken-2" @click="clear" outlined> Limpiar </v-btn>
+        <v-btn color="yellow darken-2" class="mr-4" @click="submit" outlined>
+          Guardar travesaño</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -35,7 +40,7 @@
   export default {
     name: "crearmarca",
     props: {
-      parentdialog: { type: Boolean },
+      dialogtravesaño: { default: false },
     } /*data de llegado de componente padre creacion*/,
     data: () => ({
       travesaño: "",
@@ -44,8 +49,7 @@
     methods: {
       onClose() {
         /*Envia parametro de cierre a componente creación*/
-        this.$emit("dialogFromChild", false);
-        store.commit("increment", 1);
+        this.$emit("update:dialogtravesaño", false);
       },
       submit() {
         store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada

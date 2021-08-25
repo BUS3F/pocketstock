@@ -1,19 +1,19 @@
 <template>
   <v-dialog
     content-class="elevation-0"
-    v-model="parentdialog"
-    max-width="40rem"
+    v-model="dialogarticulo"
     persistent
+    max-width="40rem"
   >
     <v-card v-on:keyup.enter="submit()" class="cont-card">
       <v-toolbar light flat>
         <v-btn icon color="dark" @click="onClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Crear artículo</v-toolbar-title>
+        <v-toolbar-title>Crear {{ nameat }}</v-toolbar-title>
       </v-toolbar>
       <v-row>
-        <v-col sm="6" md="12" lx="13">
+        <v-col sm="3" md="6">
           <v-text-field
             v-model="name"
             :counter="10"
@@ -21,9 +21,7 @@
             required
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col sm="6" md="12" lx="13">
+        <v-col sm="3" md="6">
           <v-text-field
             v-model="cant"
             type="number"
@@ -34,7 +32,7 @@
         </v-col>
       </v-row>
       <v-row align="center">
-        <v-col sm="6" md="12" lx="13">
+        <v-col sm="6" md="12">
           <v-select
             v-model="selectc"
             :items="itemsc"
@@ -46,7 +44,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col sm="6" md="6" lx="8">
+        <v-col sm="6" md="6">
           <v-select
             v-model="selectt"
             :items="itemstt"
@@ -57,7 +55,7 @@
           </v-select>
         </v-col>
 
-        <v-col sm="6" md="6" lx="8">
+        <v-col sm="6" md="6">
           <v-select
             v-model="selectp"
             :items="itemsp"
@@ -69,7 +67,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col sm="6" md="6" lx="8">
+        <v-col sm="6" md="6">
           <v-select
             v-model="selectm"
             :items="itemstm"
@@ -80,7 +78,7 @@
           ></v-select>
         </v-col>
 
-        <v-col sm="6" md="6" lx="8">
+        <v-col sm="6" md="6">
           <v-select
             v-model="selectst"
             :items="itemstst"
@@ -92,7 +90,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col sm="3" md="6" lx="8">
+        <v-col sm="3" md="6">
           <v-select
             v-model="selectr"
             :items="itemsr"
@@ -102,7 +100,7 @@
             required
           ></v-select>
         </v-col>
-        <v-col sm="3" md="6" lx="8">
+        <v-col sm="3" md="6">
           <v-select
             v-model="selectT"
             :items="itemsT"
@@ -113,9 +111,12 @@
           ></v-select>
         </v-col>
       </v-row>
-      <v-card-actions>
-        <v-btn color="green" class="mr-4" @click="submit" text> Guardar </v-btn>
-        <v-btn color="blue darken-1" @click="clear" text> Limpiar </v-btn>
+      <v-card-actions
+        ><v-spacer></v-spacer>
+        <v-btn color="grey darken-1" @click="clear" outlined> Limpiar </v-btn>
+        <v-btn color="yellow darken-2" class="mr-4" @click="submit" outlined>
+          Guardar {{ nameat }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -137,27 +138,28 @@
   export default {
     name: "creararticulos",
     props: {
-      parentdialog: { type: Boolean },
+      dialogarticulo: { default: false },
     } /*data de llegado de componente padre creacion*/,
     data: () => ({
       name: "",
       cant: "",
+      nameat: "artículo", //nombre variable en componente
       cargando: false,
-      selectc: "", //categoria
-      selectt: "", //tipo
-      selectp: "", //proveedor
-      selectm: "", //marca
-      selectst: "", //status
-      selectr: "", //rack
-      selectT: "", //travesaño
+      selectc: "", //*categoria
+      selectt: "", //*tipo
+      selectp: "", //*proveedor
+      selectm: "", //*marca
+      selectst: "", //*status
+      selectr: "", //*rack
+      selectT: "", //*travesaño
 
-      itemsc: [], //categoria
-      itemstt: [], //tipo
-      itemsp: [], //proveedor
-      itemstm: [], //marca
-      itemstst: [], //status
-      itemsr: [], //rack
-      itemsT: [], //travesaño
+      itemsc: [], //*categoria [array]
+      itemstt: [], //*tipo [array]
+      itemsp: [], //*proveedor [array]
+      itemstm: [], //*marca [array]
+      itemstst: [], //*status [array]
+      itemsr: [], //*rack [array]
+      itemsT: [], //*travesaño [array]
     }),
     mounted() {
       getCategorias(this.itemsc)
@@ -244,8 +246,9 @@
     methods: {
       onClose() {
         /*Envia parametro de cierre a componente creación*/
-        this.$emit("dialogFromChild", false);
-        store.commit("increment", 1);
+        this.$emit("update:dialogarticulo", false);
+        //this.$emit("dialogFromChild", false);
+        //store.commit("increment", 1);
       },
       submit() {
         store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada

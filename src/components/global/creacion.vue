@@ -14,7 +14,7 @@
                 @shortkey="dialogarticulo = !dialogarticulo"
                 color="primary"
                 text
-                @click.native="dialogarticulo = !dialogarticulo"
+                @click="dialogarticulo = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -32,7 +32,7 @@
                 @shortkey="dialogcategoria = !dialogcategoria"
                 color="primary"
                 text
-                @click="dialogcategoria = !dialogcategoria"
+                @click="dialogcategoria = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -50,7 +50,7 @@
                 @shortkey="dialogmarca = !dialogmarca"
                 color="primary"
                 text
-                @click="dialogmarca = !dialogmarca"
+                @click="dialogmarca = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -68,7 +68,7 @@
                 @shortkey="dialogtipo = !dialogtipo"
                 color="primary"
                 text
-                @click="dialogtipo = !dialogtipo"
+                @click="dialogtipo = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -86,7 +86,7 @@
                 @shortkey="dialogproveedor = !dialogproveedor"
                 color="primary"
                 text
-                @click="dialogproveedor = !dialogproveedor"
+                @click="dialogproveedor = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -111,7 +111,7 @@
                 @shortkey="dialograck = !dialograck"
                 color="primary"
                 text
-                @click="dialograck = !dialograck"
+                @click="dialograck = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -129,7 +129,7 @@
                 @shortkey="dialogtravesaño = !dialogtravesaño"
                 color="primary"
                 text
-                @click="dialogtravesaño = !dialogtravesaño"
+                @click="dialogtravesaño = true"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -142,41 +142,19 @@
       </v-col>
     </v-row>
 
-    <creararticulo
-      :key="count"
-      :parentdialog="dialogarticulo"
-      @dialogFromChild="syncFromArticulo($event)"
-    />
-    <crearcategoria
-      :parentdialog="dialogcategoria"
-      v-on:dialogFromChild="syncFromCategoria($event)"
-    />
-    <crearmarca
-      :parentdialog="dialogmarca"
-      v-on:dialogFromChild="syncFromMarca($event)"
-    />
-    <creartipo
-      :parentdialog="dialogtipo"
-      v-on:dialogFromChild="syncFromTipo($event)"
-    />
-    <crearproveedor
-      :parentdialog="dialogproveedor"
-      v-on:dialogFromChild="syncFromProveedor($event)"
-    />
+    <creararticulo :key="count" :dialogarticulo.sync="dialogarticulo" />
+    <crearcategoria :dialogcategoria.sync="dialogcategoria" />
+    <crearmarca :dialogmarca.sync="dialogmarca" />
+    <creartipo :dialogtipo.sync="dialogtipo" />
+    <crearproveedor :dialogproveedor.sync="dialogproveedor" />
     <!--<crearstatus
       :parentdialog="dialogstatus"
       v-on:dialogFromChild="syncFromStatus($event)"
      
     />-->
 
-    <crearrack
-      :parentdialog="dialograck"
-      v-on:dialogFromChild="syncFromRack($event)"
-    />
-    <creartravesaño
-      :parentdialog="dialogtravesaño"
-      v-on:dialogFromChild="syncFromTravesaño($event)"
-    />
+    <crearrack :dialograck.sync="dialograck" />
+    <creartravesaño :dialogtravesaño.sync="dialogtravesaño" />
   </v-card>
 </template>
 
@@ -212,30 +190,30 @@
       },
     },
     methods: {
-      syncFromArticulo(updatedDialog) {
-        this.dialogarticulo = updatedDialog;
-      },
-      syncFromCategoria(updatedDialog) {
-        this.dialogcategoria = updatedDialog;
-      },
-      syncFromMarca(updatedDialog) {
-        this.dialogmarca = updatedDialog;
-      },
-      syncFromTipo(updatedDialog) {
-        this.dialogtipo = updatedDialog;
-      },
-      syncFromProveedor(updatedDialog) {
-        this.dialogproveedor = updatedDialog;
-      },
-      /*syncFromStatus(updatedDialog) {
-                                                                                                                          this.dialogstatus = updatedDialog;
-                                                                                                                        },*/
-      syncFromRack(updatedDialog) {
-        this.dialograck = updatedDialog;
-      },
-      syncFromTravesaño(updatedDialog) {
-        this.dialogtravesaño = updatedDialog;
-      },
+      // syncFromArticulo(updatedDialog) {
+      //   this.dialogarticulo = updatedDialog;
+      // },
+      // syncFromCategoria(updatedDialog) {
+      //   this.dialogcategoria = updatedDialog;
+      // },
+      // syncFromMarca(updatedDialog) {
+      //   this.dialogmarca = updatedDialog;
+      // },
+      // syncFromTipo(updatedDialog) {
+      //   this.dialogtipo = updatedDialog;
+      // },
+      // syncFromProveedor(updatedDialog) {
+      //   this.dialogproveedor = updatedDialog;
+      // },
+      // /*syncFromStatus(updatedDialog) {
+      //                                                                                                                                     this.dialogstatus = updatedDialog;
+      //                                                                                                                                   },*/
+      // syncFromRack(updatedDialog) {
+      //   this.dialograck = updatedDialog;
+      // },
+      // syncFromTravesaño(updatedDialog) {
+      //   this.dialogtravesaño = updatedDialog;
+      // },
     },
     data: () => ({
       dialogarticulo: false,

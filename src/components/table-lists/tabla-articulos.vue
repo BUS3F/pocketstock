@@ -33,7 +33,7 @@
             <v-toolbar-title>Tabla artículos</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialog" min-width="300px" max-width="600px">
               <v-card>
                 <v-card-title>
                   <h1 class="headline">{{ formTitle }}</h1>
@@ -42,7 +42,7 @@
                 <v-card-text>
                   <v-container>
                     <v-row cols="12">
-                      <v-col sm="4" md="5">
+                      <v-col sm="4" md="6">
                         <v-text-field
                           v-model="editedItem.nombre_articulo"
                           label="Nombre"
@@ -64,7 +64,7 @@
                           label="Categoría"
                         ></v-select>
                       </v-col>
-                      <v-col sm="3" md="4">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectt"
                           :items="itemstt"
@@ -74,7 +74,7 @@
                         >
                         </v-select>
                       </v-col>
-                      <v-col sm="3" md="4">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectm"
                           :items="itemstm"
@@ -84,7 +84,7 @@
                           required
                         ></v-select>
                       </v-col>
-                      <v-col sm="3" md="5">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectp"
                           :items="itemsp"
@@ -94,7 +94,7 @@
                           required
                         ></v-select>
                       </v-col>
-                      <v-col sm="3" md="3">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectst"
                           :items="itemstst"
@@ -104,7 +104,7 @@
                           required
                         ></v-select>
                       </v-col>
-                      <v-col sm="4" md="5">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectr"
                           :items="itemsr"
@@ -114,7 +114,7 @@
                           required
                         ></v-select>
                       </v-col>
-                      <v-col sm="4" md="5">
+                      <v-col sm="4" md="6">
                         <v-select
                           v-model="selectT"
                           :items="itemsT"
@@ -130,10 +130,12 @@
 
                 <v-card-actions v-on:keyup.enter="save">
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">
-                    Cancel
+                  <v-btn color="grey darken-2" outlined @click="close">
+                    Cancelar
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+                  <v-btn color="yellow darken-2" outlined @click="save">
+                    Guardar cambios
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
