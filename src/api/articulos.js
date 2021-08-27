@@ -44,6 +44,7 @@ export function postArticulos(enviar) {
     .then((response) => {
       if (response.statusText === "Created") {
         store.commit("setsuccess", true);
+
       }
     })
     .catch((e) => {
@@ -54,14 +55,14 @@ export function postArticulos(enviar) {
     });
 }
 export function deleteArticulos(id) {
-  axios.delete("api/articulo/" + id).catch((error) => console.log(error));
+  axios.delete("api/articulo/" + id).then((response) => { response; /*store.commit("increment", 1);*/ }).catch((error) => console.log(error));
 }
 export function editArticulos(url) {
   axios
     .put(url)
     .then((response) => {
       response;
-      store.commit("increment", 1);
+
     })
     .catch((error) => console.log(error));
 }

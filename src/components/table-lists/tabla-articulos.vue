@@ -178,459 +178,459 @@
 </template>
 
 <script>
-  import axios from "axios";
-  import store from "@/store";
-  import {
-    getArticulos,
-    deleteArticulos,
-    editArticulos,
-  } from "@/api/articulos.js";
-  import { getCategorias } from "@/api/categorias.js";
-  import { getMarcas } from "@/api/marcas.js";
-  import { getProveedores } from "@/api/proveedores.js";
-  import { getTipos } from "@/api/tipos.js";
-  import { getRack } from "@/api/racks.js";
-  import { getTravesano } from "@/api/travesanos.js";
-  import { upperConverter } from "@/special/uppercases-converter.js";
-  axios.defaults.baseURL = "http://127.0.0.1:8000/";
-  export default {
-    name: "tabla-articulos",
-    data: () => ({
-      search: "",
-      dialog: false,
-      dialogDelete: false,
-      cargando: true,
+import axios from "axios";
+import store from "@/store";
+import {
+  getArticulos,
+  deleteArticulos,
+  editArticulos,
+} from "@/api/articulos.js";
+import { getCategorias } from "@/api/categorias.js";
+import { getMarcas } from "@/api/marcas.js";
+import { getProveedores } from "@/api/proveedores.js";
+import { getTipos } from "@/api/tipos.js";
+import { getRack } from "@/api/racks.js";
+import { getTravesano } from "@/api/travesanos.js";
+import { upperConverter } from "@/special/uppercases-converter.js";
+axios.defaults.baseURL = "http://127.0.0.1:8000/";
+export default {
+  name: "tabla-articulos",
+  data: () => ({
+    search: "",
+    dialog: false,
+    dialogDelete: false,
+    cargando: true,
 
-      headers: [
-        {
-          text: "Nombre",
-          align: "start",
-          sortable: false,
-          value: "nombre_articulo",
-        },
-        { text: "Cantidad", value: "cantidad_articulo" },
-        { text: "Categoría", value: "nombre_categoria" },
-        { text: "Tipo", value: "name_tipo" },
-        { text: "Marca", value: "nombre_marca" },
-        { text: "Proveedor", value: "nombre_proveedor" },
-        { text: "estatus", value: "nombre_status" },
-        { text: "Rack", value: "nombre_rack" },
-        { text: "Travesaño", value: "nombre_travesano" },
-        { text: "Acciones", value: "actions", sortable: false },
-      ],
-
-      articulosArray: [],
-      //variable en la que se deposita la posicion en el selector
-      selectc: "", //categoria
-      selectt: "", //tipo
-      selectp: "", //proveedor
-      selectm: "", //marca
-      selectst: "", //status
-      selectr: "", //rack
-      selectT: "", //travesaño
-      //Array en el que se deposita de los selectores.
-      itemsc: [], //categoria
-      itemstt: [], //tipo
-      itemsp: [], //proveedor
-      itemstm: [], //marca
-      itemstst: [], //status
-      itemsr: [], //rack
-      itemsT: [], //travesaño
-
-      editedIndex: -1,
-      editedItem: {
-        id: "",
-        nombre_articulo: "",
-        cantidad_articulo: 0,
-        nombre_categoria: "",
-        name_tipo: "",
-        nombre_marca: "",
-        nombre_proveedor: "",
-        nombre_status: "",
-        nombre_rack: "",
-        nombre_travesano: "",
+    headers: [
+      {
+        text: "Nombre",
+        align: "start",
+        sortable: false,
+        value: "nombre_articulo",
       },
-      defaultItem: {
-        id: "",
-        nombre_articulo: "",
-        cantidad_articulo: 0,
-        nombre_categoria: "",
-        name_tipo: "",
-        nombre_marca: "",
-        nombre_proveedor: "",
-        nombre_status: "",
-        nombre_rack: "",
-        nombre_travesano: "",
-      },
-    }),
-    created() {
-      this.onFocus();
+      { text: "Cantidad", value: "cantidad_articulo" },
+      { text: "Categoría", value: "nombre_categoria" },
+      { text: "Tipo", value: "name_tipo" },
+      { text: "Marca", value: "nombre_marca" },
+      { text: "Proveedor", value: "nombre_proveedor" },
+      { text: "estatus", value: "nombre_status" },
+      { text: "Rack", value: "nombre_rack" },
+      { text: "Travesaño", value: "nombre_travesano" },
+      { text: "Acciones", value: "actions", sortable: false },
+    ],
+
+    articulosArray: [],
+    //variable en la que se deposita la posicion en el selector
+    selectc: "", //categoria
+    selectt: "", //tipo
+    selectp: "", //proveedor
+    selectm: "", //marca
+    selectst: "", //status
+    selectr: "", //rack
+    selectT: "", //travesaño
+    //Array en el que se deposita de los selectores.
+    itemsc: [], //categoria
+    itemstt: [], //tipo
+    itemsp: [], //proveedor
+    itemstm: [], //marca
+    itemstst: [], //status
+    itemsr: [], //rack
+    itemsT: [], //travesaño
+
+    editedIndex: -1,
+    editedItem: {
+      id: "",
+      nombre_articulo: "",
+      cantidad_articulo: 0,
+      nombre_categoria: "",
+      name_tipo: "",
+      nombre_marca: "",
+      nombre_proveedor: "",
+      nombre_status: "",
+      nombre_rack: "",
+      nombre_travesano: "",
     },
-    mounted() {
-      window.Echo.channel("articulos").listen("articuloCreated", (e) => {
-        this.articulosArray = e.articulos;
-      });
+    defaultItem: {
+      id: "",
+      nombre_articulo: "",
+      cantidad_articulo: 0,
+      nombre_categoria: "",
+      name_tipo: "",
+      nombre_marca: "",
+      nombre_proveedor: "",
+      nombre_status: "",
+      nombre_rack: "",
+      nombre_travesano: "",
+    },
+  }),
+  created() {
+    this.onFocus();
+  },
+  mounted() {
+    window.Echo.channel("articulos").listen("articuloCreated", (e) => {
+      this.articulosArray = e.articulos;
+    });
 
-      window.Echo.channel("categorias").listen("categoriaCreated", (e) => {
-        this.itemsc = e.categorias;
+    window.Echo.channel("categorias").listen("categoriaCreated", (e) => {
+      this.itemsc = e.categorias;
+    });
+    window.Echo.channel("marcas").listen("marcaCreated", (e) => {
+      this.itemstm = e.marcas;
+    });
+    window.Echo.channel("proveedores").listen("proveedorCreated", (e) => {
+      this.itemsp = e.proveedores;
+    });
+    window.Echo.channel("status").listen("statusCreated", (e) => {
+      this.itemstst = e.status;
+    });
+    window.Echo.channel("tipos").listen("tipoCreated", (e) => {
+      this.itemstt = e.tipos;
+    });
+    window.Echo.channel("racks").listen("rackCreated", (e) => {
+      this.itemsr = e.racks;
+    });
+    window.Echo.channel("travesanos").listen("travesañoCreated", (e) => {
+      this.itemsT = e.travesanos;
+    });
+    getArticulos(this.articulosArray)
+      .then((response) => {
+        if (response.stats === 200) {
+          this.cargando = false;
+          store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada
+          store.commit("setdanger", false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        this.cargando = true;
       });
-      window.Echo.channel("marcas").listen("marcaCreated", (e) => {
-        this.itemstm = e.marcas;
+    getCategorias(this.itemsc);
+    getMarcas(this.itemstm);
+    getProveedores(this.itemsp);
+    getTipos(this.itemstt);
+    getRack(this.itemsr);
+    getTravesano(this.itemsT);
+
+    axios
+      .get("api/status")
+      .then((response) => {
+        let status = response.data;
+
+        status.forEach((element) => {
+          let datos = {
+            status_id: element.id,
+            nombre_status: element.nombre_status,
+          };
+
+          if (!datos) return;
+          this.itemstst.push(datos);
+        });
+      })
+      .catch((e) => {
+        console.log(e.message);
       });
-      window.Echo.channel("proveedores").listen("proveedorCreated", (e) => {
-        this.itemsp = e.proveedores;
+  },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Editar articulo";
+    },
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+
+  methods: {
+    onFocus() {
+      let stext = document.getElementById("onsearch");
+      stext;
+      stext = addEventListener("keyup", (e) => {
+        if (e.altKey) {
+          document.getElementById("onsearch").focus();
+        }
       });
-      window.Echo.channel("status").listen("statusCreated", (e) => {
-        this.itemstst = e.status;
-      });
-      window.Echo.channel("tipos").listen("tipoCreated", (e) => {
-        this.itemstt = e.tipos;
-      });
-      window.Echo.channel("racks").listen("rackCreated", (e) => {
-        this.itemsr = e.racks;
-      });
-      window.Echo.channel("travesanos").listen("travesañoCreated", (e) => {
-        this.itemsT = e.travesanos;
-      });
-      getArticulos(this.articulosArray)
-        .then((response) => {
-          if (response.stats === 200) {
-            this.cargando = false;
-            store.commit("setsuccess", false); //para resetear el valor de la notificion en una nueva entrada
-            store.commit("setdanger", false);
+    },
+    getColor(status) {
+      if (status === "Agotado") return "red lighten-2";
+      else if (status === "Disponible") return "orange lighten-2";
+      else if (status === "En uso") return "blue lighten-2";
+      else return "withe";
+    },
+    filterOnlyCapsText(value, search) {
+      return (
+        value != null &&
+        search != null &&
+        typeof value === "string" &&
+        value.toString().toLocaleUpperCase().indexOf(search) !== -1
+      );
+    },
+    tiposync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
+
+      if (this.itemstt) {
+        let tipo = this.itemstt;
+
+        tipo.forEach((element) => {
+          let datos = {
+            id: element.id,
+            name_tipo: element.name_tipo,
+          };
+          if (datos.name_tipo === recived) {
+            tempid = datos.id;
+            tempname = datos.name_tipo;
+            this.selectt = tempid;
           }
-        })
-        .catch((e) => {
-          console.log(e);
-          this.cargando = true;
         });
-      getCategorias(this.itemsc);
-      getMarcas(this.itemstm);
-      getProveedores(this.itemsp);
-      getTipos(this.itemstt);
-      getRack(this.itemsr);
-      getTravesano(this.itemsT);
+      }
 
-      axios
-        .get("api/status")
-        .then((response) => {
-          let status = response.data;
-
-          status.forEach((element) => {
-            let datos = {
-              status_id: element.id,
-              nombre_status: element.nombre_status,
-            };
-
-            if (!datos) return;
-            this.itemstst.push(datos);
-          });
-        })
-        .catch((e) => {
-          console.log(e.message);
-        });
+      return this.selectt;
     },
+    proveedorsync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
 
-    computed: {
-      formTitle() {
-        return this.editedIndex === -1 ? "New Item" : "Editar articulo";
-      },
-    },
+      if (this.itemsp) {
+        let proveedor = this.itemsp;
+        proveedor.forEach((element) => {
+          let datos = {
+            id: element.id,
+            nombre_proveedor: element.nombre_proveedor,
+          };
+          if (datos.nombre_proveedor === recived) {
+            tempid = datos.id;
+            tempname = datos.nombre_proveedor;
 
-    watch: {
-      dialog(val) {
-        val || this.close();
-      },
-      dialogDelete(val) {
-        val || this.closeDelete();
-      },
-    },
-
-    methods: {
-      onFocus() {
-        let stext = document.getElementById("onsearch");
-        stext;
-        stext = addEventListener("keyup", (e) => {
-          if (e.altKey) {
-            document.getElementById("onsearch").focus();
+            this.selectp = tempid;
           }
         });
-      },
-      getColor(status) {
-        if (status === "Agotado") return "red lighten-2";
-        else if (status === "Disponible") return "orange lighten-2";
-        else if (status === "En uso") return "blue lighten-2";
-        else return "withe";
-      },
-      filterOnlyCapsText(value, search) {
-        return (
-          value != null &&
-          search != null &&
-          typeof value === "string" &&
-          value.toString().toLocaleUpperCase().indexOf(search) !== -1
-        );
-      },
-      tiposync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-
-        if (this.itemstt) {
-          let tipo = this.itemstt;
-
-          tipo.forEach((element) => {
-            let datos = {
-              id: element.id,
-              name_tipo: element.name_tipo,
-            };
-            if (datos.name_tipo === recived) {
-              tempid = datos.id;
-              tempname = datos.name_tipo;
-              this.selectt = tempid;
-            }
-          });
-        }
-
-        return this.selectt;
-      },
-      proveedorsync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-
-        if (this.itemsp) {
-          let proveedor = this.itemsp;
-          proveedor.forEach((element) => {
-            let datos = {
-              id: element.id,
-              nombre_proveedor: element.nombre_proveedor,
-            };
-            if (datos.nombre_proveedor === recived) {
-              tempid = datos.id;
-              tempname = datos.nombre_proveedor;
-
-              this.selectp = tempid;
-            }
-          });
-        }
-        return this.selectp;
-      },
-      marcasync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-
-        if (this.itemstm) {
-          let marca = this.itemstm;
-          marca.forEach((element) => {
-            let datos = {
-              id: element.id,
-              nombre_marca: element.nombre_marca,
-            };
-            if (datos.nombre_marca === recived) {
-              tempid = datos.id;
-              tempname = datos.nombre_marca;
-
-              this.selectm = tempid;
-            }
-          });
-        }
-        return this.selectm;
-      },
-      statusync(recived) {
-        var tempid = "";
-        var tempname = "";
-
-        tempname;
-        if (this.itemstst) {
-          let status = this.itemstst;
-          status.forEach((element) => {
-            let datos = {
-              status_id: element.status_id,
-              nombre_status: element.nombre_status,
-            };
-
-            if (datos.nombre_status === recived) {
-              tempid = datos.status_id;
-              tempname = datos.nombre_status;
-
-              this.selectst = tempid;
-            }
-          });
-        }
-        return this.selectst;
-      },
-      racksync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-        if (this.itemsr) {
-          let rack = this.itemsr;
-          rack.forEach((element) => {
-            let datos = {
-              id: element.id,
-              nombre_rack: element.nombre_rack,
-            };
-            if (datos.nombre_rack === recived) {
-              tempid = datos.id;
-              tempname = datos.nombre_rack;
-
-              this.selectr = tempid;
-            }
-          });
-        }
-        return this.selectr;
-      },
-      travesañosync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-        if (this.itemsT) {
-          let rack = this.itemsT;
-          rack.forEach((element) => {
-            let datos = {
-              id: element.id,
-              nombre_travesano: element.nombre_travesano,
-            };
-            if (datos.nombre_travesano === recived) {
-              tempid = datos.id;
-              tempname = datos.nombre_travesano;
-
-              this.selectT = tempid;
-            }
-          });
-        }
-        return this.selectT;
-      },
-      categsync(recived) {
-        var tempid = "";
-        var tempname = "";
-        tempname;
-        if (this.itemsc) {
-          console.log(this.itemsc);
-          let categoria = this.itemsc;
-          categoria.forEach((element) => {
-            let datos = {
-              id: element.id,
-              nombre_categoria: element.nombre_categoria,
-            };
-            if (datos.nombre_categoria === recived) {
-              tempid = datos.id;
-              tempname = datos.nombre_categoria;
-
-              this.selectc = tempid;
-            }
-          });
-        }
-        return this.selectc;
-      },
-
-      editItem(item) {
-        this.editedIndex = this.articulosArray.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-
-        //categoria
-        if (this.editedItem.nombre_categoria) {
-          let categoriasync = this.editedItem.nombre_categoria;
-          this.categsync(categoriasync);
-        }
-
-        //tipo
-        if (this.editedItem.name_tipo) {
-          let tiposync = this.editedItem.name_tipo;
-
-          this.tiposync(tiposync);
-        }
-
-        //proveedor
-        let proveedorsync = this.editedItem.nombre_proveedor;
-        this.proveedorsync(proveedorsync);
-
-        //marca
-        let marcasync = this.editedItem.nombre_marca;
-        this.marcasync(marcasync);
-
-        //status
-        let statusync = this.editedItem.nombre_status;
-        this.statusync(statusync);
-
-        //rack
-        let racksycn = this.editedItem.nombre_rack;
-        this.racksync(racksycn);
-
-        //travesaño
-        let travesañosync = this.editedItem.nombre_travesano;
-        this.travesañosync(travesañosync);
-
-        this.dialog = true;
-      },
-
-      deleteItem(item) {
-        this.editedIndex = this.articulosArray.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-        this.dialogDelete = true;
-
-        let id = this.editedItem.id;
-        deleteArticulos(id);
-      },
-
-      deleteItemConfirm() {
-        this.articulosArray.splice(this.editedIndex, 1);
-        this.closeDelete();
-      },
-
-      close() {
-        this.dialog = false;
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        });
-      },
-
-      closeDelete() {
-        this.dialogDelete = false;
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        });
-      },
-
-      save() {
-        if (this.editedIndex > -1) {
-          Object.assign(this.articulosArray[this.editedIndex], this.editedItem);
-          let send = this.editedItem;
-          send.nombre_articulo = upperConverter(send.nombre_articulo);
-          let url = "api/articulo/";
-          url = url + send.id;
-          url = `${url}?${"nombre_articulo=" + send.nombre_articulo}&${
-            "cantidad_articulo=" + send.cantidad_articulo
-          }&${"categoria_id=" + this.selectc}&${"tipo_id=" + this.selectt}&${
-            "marca_id=" + this.selectm
-          }&${"proveedor_id=" + this.selectp}&${"status_id=" + this.selectst}&${
-            "rack_id=" + this.selectr
-          }&${"travesano_id=" + this.selectT}`;
-          editArticulos(url);
-          axios
-            .put(url)
-            .then((response) => {
-              response;
-              store.commit("increment", 1);
-            })
-            .catch((error) => console.log(error));
-        } else {
-          this.articulosArray.push(this.editedItem);
-        }
-        this.close();
-      },
+      }
+      return this.selectp;
     },
-  };
+    marcasync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
+
+      if (this.itemstm) {
+        let marca = this.itemstm;
+        marca.forEach((element) => {
+          let datos = {
+            id: element.id,
+            nombre_marca: element.nombre_marca,
+          };
+          if (datos.nombre_marca === recived) {
+            tempid = datos.id;
+            tempname = datos.nombre_marca;
+
+            this.selectm = tempid;
+          }
+        });
+      }
+      return this.selectm;
+    },
+    statusync(recived) {
+      var tempid = "";
+      var tempname = "";
+
+      tempname;
+      if (this.itemstst) {
+        let status = this.itemstst;
+        status.forEach((element) => {
+          let datos = {
+            status_id: element.status_id,
+            nombre_status: element.nombre_status,
+          };
+
+          if (datos.nombre_status === recived) {
+            tempid = datos.status_id;
+            tempname = datos.nombre_status;
+
+            this.selectst = tempid;
+          }
+        });
+      }
+      return this.selectst;
+    },
+    racksync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
+      if (this.itemsr) {
+        let rack = this.itemsr;
+        rack.forEach((element) => {
+          let datos = {
+            id: element.id,
+            nombre_rack: element.nombre_rack,
+          };
+          if (datos.nombre_rack === recived) {
+            tempid = datos.id;
+            tempname = datos.nombre_rack;
+
+            this.selectr = tempid;
+          }
+        });
+      }
+      return this.selectr;
+    },
+    travesañosync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
+      if (this.itemsT) {
+        let rack = this.itemsT;
+        rack.forEach((element) => {
+          let datos = {
+            id: element.id,
+            nombre_travesano: element.nombre_travesano,
+          };
+          if (datos.nombre_travesano === recived) {
+            tempid = datos.id;
+            tempname = datos.nombre_travesano;
+
+            this.selectT = tempid;
+          }
+        });
+      }
+      return this.selectT;
+    },
+    categsync(recived) {
+      var tempid = "";
+      var tempname = "";
+      tempname;
+      if (this.itemsc) {
+        console.log(this.itemsc);
+        let categoria = this.itemsc;
+        categoria.forEach((element) => {
+          let datos = {
+            id: element.id,
+            nombre_categoria: element.nombre_categoria,
+          };
+          if (datos.nombre_categoria === recived) {
+            tempid = datos.id;
+            tempname = datos.nombre_categoria;
+
+            this.selectc = tempid;
+          }
+        });
+      }
+      return this.selectc;
+    },
+
+    editItem(item) {
+      this.editedIndex = this.articulosArray.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+
+      //categoria
+      if (this.editedItem.nombre_categoria) {
+        let categoriasync = this.editedItem.nombre_categoria;
+        this.categsync(categoriasync);
+      }
+
+      //tipo
+      if (this.editedItem.name_tipo) {
+        let tiposync = this.editedItem.name_tipo;
+
+        this.tiposync(tiposync);
+      }
+
+      //proveedor
+      let proveedorsync = this.editedItem.nombre_proveedor;
+      this.proveedorsync(proveedorsync);
+
+      //marca
+      let marcasync = this.editedItem.nombre_marca;
+      this.marcasync(marcasync);
+
+      //status
+      let statusync = this.editedItem.nombre_status;
+      this.statusync(statusync);
+
+      //rack
+      let racksycn = this.editedItem.nombre_rack;
+      this.racksync(racksycn);
+
+      //travesaño
+      let travesañosync = this.editedItem.nombre_travesano;
+      this.travesañosync(travesañosync);
+
+      this.dialog = true;
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.articulosArray.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+
+      let id = this.editedItem.id;
+      deleteArticulos(id);
+    },
+
+    deleteItemConfirm() {
+      this.articulosArray.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.articulosArray[this.editedIndex], this.editedItem);
+        let send = this.editedItem;
+        send.nombre_articulo = upperConverter(send.nombre_articulo);
+        let url = "api/articulo/";
+        url = url + send.id;
+        url = `${url}?${"nombre_articulo=" + send.nombre_articulo}&${
+          "cantidad_articulo=" + send.cantidad_articulo
+        }&${"categoria_id=" + this.selectc}&${"tipo_id=" + this.selectt}&${
+          "marca_id=" + this.selectm
+        }&${"proveedor_id=" + this.selectp}&${"status_id=" + this.selectst}&${
+          "rack_id=" + this.selectr
+        }&${"travesano_id=" + this.selectT}`;
+        editArticulos(url);
+        axios
+          .put(url)
+          .then((response) => {
+            response;
+            store.commit("increment", 1);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.articulosArray.push(this.editedItem);
+      }
+      this.close();
+    },
+  },
+};
 </script>
 
 <style scoped>
-  #tabla {
-    width: 60rem;
-  }
-  .tabla {
-    width: 60rem;
-  }
+#tabla {
+  width: 60rem;
+}
+.tabla {
+  width: 60rem;
+}
 </style>
